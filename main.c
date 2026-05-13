@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include "trabalho1.h" 
 #include <stdlib.h>
-
+#include <string.h>
 DataQuebrada quebraData(char data[]);
 
 /*
@@ -81,7 +81,9 @@ int teste(int a)
 @objetivo
     Validar uma data
 @entrada
-    uma string data. Formatos que devem ser aceitos: dd/mm/aaaa, onde dd = dia, mm = mês, e aaaa, igual ao ano. dd em mm podem ter apenas um digito, e aaaa podem ter apenas dois digitos.
+    uma string data. Formatos que devem ser aceitos: dd/mm/aaaa, onde dd = dia, mm = mês, e aaaa, igual ao ano. 
+    dd e mm podem ter apenas um digito
+    , e aaaa podem ter apenas dois digitos.
 @saida
     0 -> se data inválida
     1 -> se data válida
@@ -92,8 +94,13 @@ int teste(int a)
 int q1(char data[])
 {
   int datavalida = 1;
-
+   // 20/04/2026 = 10
   //quebrar a string data em strings sDia, sMes, sAno
+  size_t tamanho = strlen(datavalida);
+  char sDia[1], sMes[1], sAno[3];
+  char sDia[1], sMes[1], sAno[3];
+  char sDia[1], sMes[1], sAno[3];
+  char sDia[1], sMes[1], sAno[3];
 
 
   //printf("%s\n", data);
