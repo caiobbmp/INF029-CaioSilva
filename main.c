@@ -96,18 +96,26 @@ int q1(char data[])
   int datavalida = 1;
    // 20/04/2026 = 10
   //quebrar a string data em strings sDia, sMes, sAno
-  size_t tamanho = strlen(datavalida);
-  char sDia[1], sMes[1], sAno[3];
-  char sDia[1], sMes[1], sAno[3];
-  char sDia[1], sMes[1], sAno[3];
-  char sDia[1], sMes[1], sAno[3];
+  int etapa = 0; //0 de dia 1 de mês até 2 de ano
+  size_t tamanho = strlen(data);
+  char sDia[3], sMes[3], sAno[5];
+  for(int i = 0; i < tamanho; i++) {
+     if(data[i] >= 0 && data[i] <= 9) { 
+        if(etapa == 0) 
+     }
+  }
+  
 
 
+  
+
+
+   }
   //printf("%s\n", data);
-
-  if (datavalida)
+ 
+  if(datavalida) {
       return 1;
-  else
+  }else {
       return 0;
 }
 
