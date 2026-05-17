@@ -192,27 +192,93 @@ int q1(char data[]) {
  */
 DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
-
-    //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
-    
+
+    // 1. Validação das datas usando a sua função q1
     if (q1(datainicial) == 0){
       dma.retorno = 2;
       return dma;
-    }else if (q1(datafinal) == 0){
+    } else if (q1(datafinal) == 0){
       dma.retorno = 3;
       return dma;
-    }else{
-      //verifique se a data final não é menor que a data inicial
-      //calcule a distancia entre as datas
-      
-
-      //se tudo der certo
-      dma.retorno = 1;
-      return dma;
-      
     }
     
+    // 2. Extração manual das datas (Igual fizemos na q1)
+    int d1 = 0, m1 = 0, a1 = 0;
+    int d2 = 0, m2 = 0, a2 = 0;
+    int etapa = 0;
+
+    // Lendo a Data Inicial
+    for (int i = 0; datainicial[i] != '\0'; i++) {
+        if (datainicial[i] == '/') {
+            etapa++;
+        } else if (datainicial[i] >= '0' && datainicial[i] <= '9') {
+            if (etapa == 0) d1 = d1 * 10 + (datainicial[i] - '0');
+            else if (etapa == 1) m1 = m1 * 10 + (datainicial[i] - '0');
+            else if (etapa == 2) a1 = a1 * 10 + (datainicial[i] - '0');
+        }
+    }
+    if (a1 >= 0 && a1 <= 99) a1 += 2000; // Ajuste de ano
+
+    // Lendo a Data Final
+    etapa = 0;
+    for (int i = 0; datafinal[i] != '\0'; i++) {
+        if (datafinal[i] == '/') {
+            etapa++;
+        } else if (datafinal[i] >= '0' && datafinal[i] <= '9') {
+            if (etapa == 0) d2 = d2 * 10 + (datafinal[i] - '0');
+            else if (etapa == 1) m2 = m2 * 10 + (datafinal[i] - '0');
+            else if (etapa == 2) a2 = a2 * 10 + (datafinal[i] - '0');
+        }
+    }
+    if (a2 >= 0 && a2 <= 99) a2 += 2000; // Ajuste de ano
+
+    // 3. Verificar se a data inicial é MAIOR que a data final
+    if (a1 > a2 || (a1 == a2 && m1 > m2) || (a1 == a2 && m1 == m2 && d1 > d2)) {
+        dma.retorno = 4;
+        return dma;
+    }
+
+    // 4. Calcular a distância matemática (Subtração simples)
+    int dias = d2 - d1;
+    int meses = m2 - m1;
+    int anos = a2 - a1;
+
+    // 5. O Pulo do Gato: Regra do Empréstimo de Dias
+    if (dias < 0) {
+        meses--; // Tira 1 do saldo de meses
+        
+        // Descobrir qual era o mês ANTERIOR para saber quantos dias pegar emprestado
+        int mesAnterior = m2 - 1;
+        int anoMesAnterior = a2;
+        
+        // Se estávamos em Janeiro (1), o mês anterior é Dezembro (12) do ano passado!
+        if (mesAnterior == 0) { 
+            mesAnterior = 12;
+            anoMesAnterior--;
+        }
+
+        // Calcula os dias do mês anterior, considerando bissexto
+        int bissexto = (anoMesAnterior % 4 == 0 && anoMesAnterior % 100 != 0) || (anoMesAnterior % 400 == 0);
+        int dias_por_mes[] = {0, 31, 28 + bissexto, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        
+        // Soma os dias emprestados para o saldo deixar de ser negativo
+        dias += dias_por_mes[mesAnterior]; 
+    }
+
+    // 6. Regra do Empréstimo de Meses
+    if (meses < 0) {
+        anos--; // Tira 1 do saldo de anos
+        meses += 12; // 1 ano empresta 12 meses
+    }
+
+    // 7. Salvar e Retornar Sucesso!
+    dma.qtdDias = dias;
+    dma.qtdMeses = meses;
+    dma.qtdAnos = anos;
+    dma.retorno = 1;
+
+    return dma;
 }
 
 /*
