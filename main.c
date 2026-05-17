@@ -91,35 +91,90 @@ int teste(int a)
     Não utilizar funções próprias de string (ex: strtok)   
     pode utilizar strlen para pegar o tamanho da string
  */
-int q1(char data[])
-{
-  int datavalida = 1;
-   // 20/04/2026 = 10
-  //quebrar a string data em strings sDia, sMes, sAno
-  int etapa = 0; //0 de dia 1 de mês até 2 de ano
-  size_t tamanho = strlen(data);
-  char sDia[3], sMes[3], sAno[5];
-  for(int i = 0; i < tamanho; i++) {
-     if(data[i] >= 0 && data[i] <= 9) { 
-        if(etapa == 0) 
-     }
-  }
-  
+int q1(char data[]) {
+    size_t tamanho = strlen(data);
+    int dia = 0, mes = 0, ano = 0;
+    int etapa = 0;       // 0=dia, 1=mes, 2=ano
+    int digitosEtapa = 0; // quantos dígitos nessa etapa
 
+    for (int i = 0; i <= (int)tamanho; i++) {
+        char c = data[i];
 
-  
+        if (c == '/' || c == '\0') {
+            // Chegou num separador ou fim da string
 
+            // Campo vazio? 
+            if (digitosEtapa == 0) return 0;
 
-   }
-  //printf("%s\n", data);
- 
-  if(datavalida) {
-      return 1;
-  }else {
-      return 0;
+            // Fim da string mas ainda faltam campos
+            if (c == '\0' && etapa != 2) return 0;
+
+            // Separador quando já estava no ano
+            if (c == '/' && etapa == 2) return 0;
+
+            // Validação de tamanho por etapa
+            if (etapa == 0 && (digitosEtapa < 1 || digitosEtapa > 2)) return 0;
+            if (etapa == 1 && (digitosEtapa < 1 || digitosEtapa > 2)) return 0;
+            if (etapa == 2 && (digitosEtapa != 2 && digitosEtapa != 4)) return 0;
+              
+            etapa++;
+            digitosEtapa = 0;
+
+        } else if (c >= '0' && c <= '9') {
+            int digito = c - '0';
+
+            if (etapa == 0) {
+                dia = dia * 10 + digito;
+                digitosEtapa++;
+            } else if (etapa == 1) {
+                mes = mes * 10 + digito;
+                digitosEtapa++;
+            } else if (etapa == 2) {
+                ano = ano * 10 + digito;
+                digitosEtapa++;
+            } else {
+                // Dígito após o fim dos 3 campos
+                return 0;
+            }
+
+        } else {
+            // Caractere inválido
+            return 0;
+        }
+      
+    }
+    
+    // Ajuste de ano com 2 dígitos
+    if (ano >= 0 && ano <= 99) {
+        ano += 2000;
+    }
+
+    
+    if (mes < 1 || mes > 12) return 0;
+
+    
+    if (dia < 1) return 0;
+
+    // Dias por mês
+    int diasNoMes = 28;
+    if (mes == 2) {
+        
+        int bissexto = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+        diasNoMes = bissexto ? 29 : 28;
+       
+    } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+        diasNoMes = 30;
+     
+    } else {
+        diasNoMes = 31;
+       
+    }
+
+    if (dia > diasNoMes) return 0;
+
+    return 1;
 }
-
-
+ 
 
 /*
  Q2 = diferença entre duas datas
@@ -140,7 +195,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 
     //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
-
+    
     if (q1(datainicial) == 0){
       dma.retorno = 2;
       return dma;
@@ -149,9 +204,8 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
       return dma;
     }else{
       //verifique se a data final não é menor que a data inicial
-      
       //calcule a distancia entre as datas
-
+      
 
       //se tudo der certo
       dma.retorno = 1;
@@ -174,6 +228,13 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 int q3(char *texto, char c, int isCaseSensitive)
 {
     int qtdOcorrencias = -1;
+    size_t tamanho = strlen(texto);
+    for(int i = 0; i < tamanho; i++) {
+     
+
+    }
+
+
 
     return qtdOcorrencias;
 }
