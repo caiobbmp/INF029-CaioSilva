@@ -416,7 +416,42 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
+    int qtdOcorrencias = 0;
+    int p = 0; 
+    
+    int tamTexto = strlen(strTexto);
+    int tamBusca = strlen(strBusca);
+
+    if (tamBusca == 0 || tamTexto == 0) return 0;
+
+    for (int i = 0; i <= tamTexto - tamBusca; i++) {
+        int achou = 1; 
+
+        for (int j = 0; j < tamBusca; j++) {
+            if (strTexto[i + j] != strBusca[j]) {
+                achou = 0; 
+                break;     
+            }
+        }
+
+        if (achou == 1) {
+            if (p < 30) { 
+                int letras_antes = 0;
+                for (int k = 0; k < i; k++) {
+                    if ((strTexto[k] & 0xC0) != 0x80) {
+                        letras_antes++;
+                    }
+                }
+
+                posicoes[p] = letras_antes + 1;             
+                posicoes[p + 1] = letras_antes + tamBusca;  
+                p += 2; 
+                qtdOcorrencias++;
+            }
+            
+            i += tamBusca - 1; 
+        }
+    }
 
     return qtdOcorrencias;
 }
@@ -433,8 +468,15 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
-
-    return num;
+    int resultado = 0;
+    
+    while (num > 0) {
+        int digito = num % 10;
+        resultado = (resultado * 10) + digito;
+        num = num / 10;
+    }
+    
+    return resultado;
 }
 
 /*
@@ -449,7 +491,24 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
+    int qtdOcorrencias = 0;
+    int mult = 1;
+    int temp = numerobusca;
+
+    while (temp > 0) {
+        mult *= 10;
+        temp /= 10;
+    }
+
+    while (numerobase > 0) {
+        if (numerobase % mult == numerobusca) {
+            qtdOcorrencias++;
+            numerobase /= mult; 
+        } else {
+            numerobase /= 10; 
+        }
+    }
+
     return qtdOcorrencias;
 }
 
@@ -463,10 +522,43 @@ int q6(int numerobase, int numerobusca)
     1 se achou 0 se não achou
  */
 
-int q7(char matriz[8][10], char palavra[5])
+int q7(char matriz[8][10], char palavra[])
 {
-    int achou;
-    return achou;
+    int tam = strlen(palavra);
+    
+    int dirLinha[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+    int dirColuna[] = {0, 0, -1, 1, -1, 1, -1, 1};
+
+    for (int l = 0; l < 8; l++) {
+        for (int c = 0; c < 10; c++) {
+            
+            if (matriz[l][c] == palavra[0]) {
+                
+                for (int d = 0; d < 8; d++) {
+                    int k;
+                    
+                    for (k = 0; k < tam; k++) {
+                        int nova_linha = l + (k * dirLinha[d]);
+                        int nova_coluna = c + (k * dirColuna[d]);
+                        
+                        if (nova_linha < 0 || nova_linha >= 8 || nova_coluna < 0 || nova_coluna >= 10) {
+                            break;
+                        }
+                        
+                        if (matriz[nova_linha][nova_coluna] != palavra[k]) {
+                            break;
+                        }
+                    }
+                    
+                    if (k == tam) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    
+    return 0; 
 }
 
 DataQuebrada quebraData(char data[])
