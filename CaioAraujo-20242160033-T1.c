@@ -21,7 +21,7 @@
 // #################################################
 
 #include <stdio.h>
-#include "trabalho1.h"
+#include "CaioAraujo-20242160033-T1.h"
 #include <stdlib.h>
 #include <string.h>
 DataQuebrada quebraData(char data[]);
@@ -214,7 +214,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
     DiasMesesAnos dma;
 
-    // 1. Validação das datas usando a sua função q1
+    //  Validação das datas usando a função q1
     if (q1(datainicial) == 0)
     {
         dma.retorno = 2;
@@ -226,7 +226,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
         return dma;
     }
 
-    // 2. Extração manual das datas (Igual fizemos na q1)
+    //  Extração manual das datas
     int d1 = 0, m1 = 0, a1 = 0;
     int d2 = 0, m2 = 0, a2 = 0;
     int etapa = 0;
@@ -272,19 +272,19 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
     if (a2 >= 0 && a2 <= 99)
         a2 += 2000; // Ajuste de ano
 
-    // 3. Verificar se a data inicial é MAIOR que a data final
+    //  Verificar se a data inicial é MAIOR que a data final
     if (a1 > a2 || (a1 == a2 && m1 > m2) || (a1 == a2 && m1 == m2 && d1 > d2))
     {
         dma.retorno = 4;
         return dma;
     }
 
-    // 4. Calcular a distância matemática (Subtração simples)
+    //  Calcular a distância 
     int dias = d2 - d1;
     int meses = m2 - m1;
     int anos = a2 - a1;
 
-    // 5. O Pulo do Gato: Regra do Empréstimo de Dias
+    // Regra do Empréstimo de Dias
     if (dias < 0)
     {
         meses--; // Tira 1 do saldo de meses
@@ -293,7 +293,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
         int mesAnterior = m2 - 1;
         int anoMesAnterior = a2;
 
-        // Se estávamos em Janeiro (1), o mês anterior é Dezembro (12) do ano passado!
+       
         if (mesAnterior == 0)
         {
             mesAnterior = 12;
@@ -308,7 +308,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
         dias += dias_por_mes[mesAnterior];
     }
 
-    // 6. Regra do Empréstimo de Meses
+    //  Regra do Empréstimo de Meses
     if (meses < 0)
     {
         anos--;      // Tira 1 do saldo de anos
@@ -473,7 +473,7 @@ int q5(int num)
     while (num > 0) {
         int digito = num % 10;
         resultado = (resultado * 10) + digito;
-        num = num / 10;
+        num = num / 10; //atualizar depois dde usar %
     }
     
     return resultado;
