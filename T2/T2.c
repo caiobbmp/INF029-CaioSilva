@@ -5,19 +5,15 @@
 
 #include "trabalho2.h"
 
-/* * ESTRATÉGIA:
- * Redefinimos o vetorPrincipal para ser um array de structs em vez de um array de inteiros simples.
- * Assim, mantemos o controle sobre o ponteiro dinâmico, o tamanho máximo e quantos elementos existem.
- */
 typedef struct {
-    int *elementos;   // Ponteiro para o array dinâmico
-    int tamanhoTotal; // Capacidade alocada (tamanho máximo)
+    int *elementos;   
+    int tamanhoTotal; // Capacidade alocada 
     int qtdAtual;     // Quantidade de números já inseridos logicamente
 } EstruturaAuxiliar;
 
 EstruturaAuxiliar vetorPrincipal[TAM];
 
-// Função auxiliar para validar limites do vetor principal (1 a 10)
+// (1 a 10)
 int ehPosicaoValida(int posicao) {
     if (posicao < 1 || posicao > 10) {
         return POSICAO_INVALIDA;
@@ -40,7 +36,7 @@ int criarEstruturaAuxiliar(int posicao, int tamanho) {
     if (tamanho < 1)
         return TAMANHO_INVALIDO;
 
-    int indice = posicao - 1; // Ajuste para índice 0 a 9 em C
+    int indice = posicao - 1; 
 
     if (vetorPrincipal[indice].elementos != NULL)
         return JA_TEM_ESTRUTURA_AUXILIAR;
@@ -89,7 +85,7 @@ int excluirNumeroDoFinaldaEstrutura(int posicao) {
     if (vetorPrincipal[indice].qtdAtual == 0)
         return ESTRUTURA_AUXILIAR_VAZIA;
 
-    // Exclusão lógica: apenas dizemos que o array tem um elemento a menos
+    
     vetorPrincipal[indice].qtdAtual--;
 
     return SUCESSO;
@@ -110,7 +106,7 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
     int achou = 0;
     int indexRemover = -1;
 
-    // Procura o valor no vetor (primeira ocorrência)
+    
     for (int i = 0; i < vetorPrincipal[indice].qtdAtual; i++) {
         if (vetorPrincipal[indice].elementos[i] == valor) {
             achou = 1;
@@ -122,12 +118,12 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
     if (!achou)
         return NUMERO_INEXISTENTE;
 
-    // Puxa todos os números à direita uma casa para a esquerda (sobrepondo o apagado)
+
     for (int i = indexRemover; i < vetorPrincipal[indice].qtdAtual - 1; i++) {
         vetorPrincipal[indice].elementos[i] = vetorPrincipal[indice].elementos[i + 1];
     }
 
-    // Exclusão lógica no contador
+  
     vetorPrincipal[indice].qtdAtual--;
 
     return SUCESSO;
@@ -142,7 +138,7 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
     if (vetorPrincipal[indice].elementos == NULL)
         return SEM_ESTRUTURA_AUXILIAR;
 
-    // Transfere apenas os dados válidos inseridos logicamente
+   
     for (int i = 0; i < vetorPrincipal[indice].qtdAtual; i++) {
         vetorAux[i] = vetorPrincipal[indice].elementos[i];
     }
@@ -151,7 +147,7 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
 }
 
 int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
-    // Reaproveitamos a função que já pega os dados corretamente
+  
     int retorno = getDadosEstruturaAuxiliar(posicao, vetorAux);
     if (retorno != SUCESSO)
         return retorno;
@@ -159,7 +155,7 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
     int indice = posicao - 1;
     int qtd = vetorPrincipal[indice].qtdAtual;
 
-    // Algoritmo de ordenação Bubble Sort simples
+
     for (int i = 0; i < qtd - 1; i++) {
         for (int j = 0; j < qtd - 1 - i; j++) {
             if (vetorAux[j] > vetorAux[j + 1]) {
@@ -174,7 +170,7 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
 }
 
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
-    int cont = 0; // Quantos elementos totais encontramos em todas as estruturas
+    int cont = 0; 
     
     for (int i = 0; i < TAM; i++) {
         if (vetorPrincipal[i].elementos != NULL) {
@@ -196,7 +192,7 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
     if (retorno == TODAS_ESTRUTURAS_AUXILIARES_VAZIAS)
         return retorno;
 
-    // Primeiro precisamos descobrir quantos elementos totais existem para ordenar
+    
     int cont = 0;
     for (int i = 0; i < TAM; i++) {
         if (vetorPrincipal[i].elementos != NULL) {
@@ -204,7 +200,7 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
         }
     }
 
-    // Ordenação (Bubble Sort) em todo o array recém preenchido
+    
     for (int i = 0; i < cont - 1; i++) {
         for (int j = 0; j < cont - 1 - i; j++) {
             if (vetorAux[j] > vetorAux[j + 1]) {
@@ -227,13 +223,13 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     if (vetorPrincipal[indice].elementos == NULL)
         return SEM_ESTRUTURA_AUXILIAR;
 
-    // Calcula o novo tamanho baseado na soma (novoTamanho pode ser negativo)
+    
     int tamanhoFinal = vetorPrincipal[indice].tamanhoTotal + novoTamanho;
 
     if (tamanhoFinal < 1)
         return NOVO_TAMANHO_INVALIDO;
 
-    // Realoca a memória para o novo limite
+ 
     int *novoArray = (int *)realloc(vetorPrincipal[indice].elementos, tamanhoFinal * sizeof(int));
     if (novoArray == NULL)
         return SEM_ESPACO_DE_MEMORIA;
@@ -241,7 +237,7 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     vetorPrincipal[indice].elementos = novoArray;
     vetorPrincipal[indice].tamanhoTotal = tamanhoFinal;
 
-    // Se o tamanho encolheu e há dados de fora, a quantidade atual precisa ser reduzida
+  
     if (vetorPrincipal[indice].qtdAtual > tamanhoFinal) {
         vetorPrincipal[indice].qtdAtual = tamanhoFinal;
     }
@@ -265,18 +261,18 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
 }
 
 No *montarListaEncadeadaComCabecote() {
-    // Aloca o cabeçote fantasma da lista (sem conteúdo relevante)
+
     No *cabecote = (No *)malloc(sizeof(No));
     if (cabecote == NULL) return NULL;
     cabecote->prox = NULL;
     
     No *atual = cabecote;
-    int temElemento = 0; // Flag para rastrear se achamos algum número
+    int temElemento = 0; 
 
     for (int i = 0; i < TAM; i++) {
         if (vetorPrincipal[i].elementos != NULL) {
             for (int j = 0; j < vetorPrincipal[i].qtdAtual; j++) {
-                // Cria e encadeia cada novo nó
+                
                 No *novo = (No *)malloc(sizeof(No));
                 novo->conteudo = vetorPrincipal[i].elementos[j];
                 novo->prox = NULL;
@@ -288,7 +284,7 @@ No *montarListaEncadeadaComCabecote() {
         }
     }
 
-    // Conforme especificado, se não houver números, retorna NULL
+   
     if (!temElemento) {
         free(cabecote);
         return NULL;
@@ -300,7 +296,7 @@ No *montarListaEncadeadaComCabecote() {
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]) {
     if (inicio == NULL) return;
 
-    // Pula o cabeçote fantasma
+  
     No *atual = inicio->prox;
     int i = 0;
     while (atual != NULL) {
@@ -316,7 +312,7 @@ void destruirListaEncadeadaComCabecote(No **inicio) {
     No *atual = *inicio;
     No *prox;
 
-    // Varre a lista dando free em todos os nós (inclusive o cabeçote)
+ 
     while (atual != NULL) {
         prox = atual->prox;
         free(atual);
@@ -327,7 +323,7 @@ void destruirListaEncadeadaComCabecote(No **inicio) {
 }
 
 void finalizar() {
-    // Garante que não teremos vazamento de memória liberando tudo
+    // Garante o nao vazamento de memória liberando tudo
     for (int i = 0; i < TAM; i++) {
         if (vetorPrincipal[i].elementos != NULL) {
             free(vetorPrincipal[i].elementos);
