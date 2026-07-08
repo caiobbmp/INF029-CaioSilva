@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define TAM 10
 
-#include "trabalho2.h"
+#include "CaioAraujo-20242160033-T2.h"
 
 int vetorPrincipal[TAM];
 

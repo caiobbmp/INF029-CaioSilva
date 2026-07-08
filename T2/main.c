@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "trabalho2.h"
+#include "CaioAraujo-20242160033-T2.h"
 
 int menu();
 
