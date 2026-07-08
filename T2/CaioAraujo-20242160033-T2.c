@@ -3,8 +3,12 @@
 #define TAM 10
 
 #include "CaioAraujo-20242160033-T2.h"
-
-int vetorPrincipal[TAM];
+typedef struct {
+    int *elementos;   
+    int tamanhoTotal; 
+    int qtdAtual;     
+} EstruturaAuxiliar;
+EstruturaAuxiliar vetorPrincipal[TAM];
 
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
