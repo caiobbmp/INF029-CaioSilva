@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "CaioAraujo-20242160033-T2.h"
+#include "trabalho2.h"
 
 void show_log(char *str);
 
