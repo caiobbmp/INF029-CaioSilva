@@ -21,7 +21,7 @@
 // #################################################
 
 #include <stdio.h>
-#include "CaioAraujo-20242160033-T1.h"
+#include "trabalho1.h"
 #include <stdlib.h>
 #include <string.h>
 DataQuebrada quebraData(char data[]);

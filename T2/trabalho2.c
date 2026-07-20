@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define TAM 10
 
-#include "CaioAraujo-20242160033-T2.h"
+#include "trabalho2.h"
 typedef struct {
     int *elementos;   
     int tamanhoTotal; 
